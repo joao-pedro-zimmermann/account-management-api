@@ -1,13 +1,20 @@
 from fastapi import FastAPI, APIRouter
+from pydantic import ValidationError
 import uvicorn
 
 from config import settings
+
+from controllers import (
+    account
+)
 
 # ---------------------------------------------------------- #
 
 main_router = APIRouter(
     prefix="/api/v1"
 )
+
+main_router.include_router(account.router)
 
 app = FastAPI()
 
