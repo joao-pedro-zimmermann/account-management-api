@@ -1,7 +1,11 @@
+from models.accounts import AccountModel
+
+# ---------------------------------------------------------- #
+
 def get_in_memory_db():
     return InMemoryDb
 
 
 class InMemoryDb:
 
-    accounts = []
+    accounts: list[None] | list[AccountModel] = []

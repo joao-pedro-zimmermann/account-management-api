@@ -1,12 +1,11 @@
 from fastapi import FastAPI, APIRouter
-from pydantic import ValidationError
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse, PlainTextResponse
 import uvicorn
 
 from config import settings
 
-from controllers import (
-    account
-)
+from controllers import account
 
 # ---------------------------------------------------------- #
 
@@ -21,4 +20,4 @@ app = FastAPI()
 app.include_router(main_router)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=settings.PORT)
+    uvicorn.run("main:app", port=settings.PORT, reload=True)
