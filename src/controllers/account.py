@@ -55,7 +55,7 @@ async def make_a_peer_to_peer_transfer(
     
 
 @router.get(
-    path='/{accountNumber}/balance',
+    path='/{account_number}/balance',
     status_code=status.HTTP_200_OK,
     response_model=BalanceSchema
 )
