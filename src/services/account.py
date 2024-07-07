@@ -19,12 +19,7 @@ def create_an_account(account: AccountDTO) -> AccountDTO:
 def make_a_peer_to_peer_transfer(transfer: TransferDTO):
 
     origin_account = get_account(transfer.from_)
-    if not origin_account:
-        raise Exception('Origin account not found')
-    
     destiny_account = get_account(transfer.to)
-    if not destiny_account:
-        raise Exception('Destiny account not found')
     
     if transfer.amount > origin_account.current_balance:
         raise Exception('Insufficient balance')
@@ -53,12 +48,15 @@ def decrement_balance(account: AccountDTO, amount: int):
     )
 
 
-def get_account(account_number: str) -> AccountDTO | None:
+def get_account(account_number: str) -> AccountDTO:
     account_dao = AccountDAO()
     
     account = account_dao.read({'account_number': account_number})
 
-    return account[0] if len(account) else None
+    if not len(account):
+        raise Exception(f'Account {account_number} not found')
+
+    return account[0]
 
 
 def save_transfer(transfer: TransferDTO) -> TransferDTO:

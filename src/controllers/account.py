@@ -1,6 +1,9 @@
 from fastapi import APIRouter, status, HTTPException
 
-from schemas.validators.account import Account as AccountSchema
+from schemas.validators.account import (
+    Account as AccountSchema,
+    Balance as BalanceSchema,
+)
 from schemas.validators.transfer import Transfer as TransferSchema
 
 from schemas.dto.account import AccountDTO
@@ -47,5 +50,22 @@ async def make_a_peer_to_peer_transfer(
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
+            detail=str(e)
+        )
+    
+
+@router.get(
+    path='/{accountNumber}/balance',
+    status_code=status.HTTP_200_OK,
+    response_model=BalanceSchema
+)
+async def get_account_balance(
+    accountNumber: str
+):
+    try:
+        return account_service.get_account(accountNumber)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         )
