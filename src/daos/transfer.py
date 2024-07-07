@@ -1,12 +1,12 @@
 from schemas.dto.transfer import TransferDTO
 
-from daos.base_dao import BaseDao
+from daos.base_dao import BaseDAO
 
-from src.models.transfer import TransferModel
+from models.transfer import TransferModel
 
 # ---------------------------------------------------------- #
 
-class TransferDao(BaseDao):
+class TransferDAO(BaseDAO):
 
     def __init__(self):
         super().__init__('transfers')

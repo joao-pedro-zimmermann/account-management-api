@@ -1,12 +1,12 @@
 from schemas.dto.account import AccountDTO
 
-from daos.base_dao import BaseDao
+from daos.base_dao import BaseDAO
 
-from models.accounts import AccountModel
+from models.account import AccountModel
 
 # ---------------------------------------------------------- #
 
-class AccountDao(BaseDao):
+class AccountDAO(BaseDAO):
 
     def __init__(self):
         super().__init__('accounts')

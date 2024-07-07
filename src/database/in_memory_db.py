@@ -1,4 +1,4 @@
-from models.accounts import AccountModel
+from models.account import AccountModel
 
 # ---------------------------------------------------------- #
 

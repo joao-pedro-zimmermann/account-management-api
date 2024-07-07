@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 
 # ---------------------------------------------------------- #
 
-class AbstractBaseDao(ABC):
+class AbstractBaseDAO(ABC):
 
     @abstractmethod
     def create(self, obj: BaseModel):
@@ -23,7 +23,7 @@ class AbstractBaseDao(ABC):
         pass
 
 
-class BaseDao(AbstractBaseDao):
+class BaseDAO(AbstractBaseDAO):
 
     def __init__(self, entity: str):
         self.db_cls = get_in_memory_db()
@@ -43,7 +43,7 @@ class BaseDao(AbstractBaseDao):
         return [obj for obj in self.entity_data if self._match(obj, filter)]
     
 
-    def update(self, values: dict, filter: dict | None = None):
+    def update(self, values: dict, filter: dict | None = None) -> int:
         updated_count = 0
         
         if not filter:

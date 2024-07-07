@@ -8,3 +8,4 @@ from models.base_model import BaseModel
 class AccountModel(BaseModel):
     
     account_number: str
+    current_balance: int = 0
