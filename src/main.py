@@ -19,5 +19,9 @@ app = FastAPI()
 
 app.include_router(main_router)
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=400)
+
 if __name__ == "__main__":
     uvicorn.run("main:app", port=settings.PORT, reload=True)
