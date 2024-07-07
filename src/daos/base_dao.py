@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 from database.in_memory_db import get_in_memory_db
+from models.base_model import BaseModel
 
 # ---------------------------------------------------------- #
 
 class AbstractBaseDao(ABC):
 
     @abstractmethod
-    def create(self, obj: dict):
+    def create(self, obj: BaseModel):
         pass
 
     @abstractmethod
@@ -18,13 +19,11 @@ class AbstractBaseDao(ABC):
         pass
 
     @abstractmethod
-    def read(self, filter: dict | None = None):
+    def delete(self, filter: dict | None = None):
         pass
 
 
-
-
-class InMemoryBaseDao(AbstractBaseDao):
+class BaseDao(AbstractBaseDao):
 
     def __init__(self, entity: str):
         self.db_cls = get_in_memory_db()
@@ -32,12 +31,12 @@ class InMemoryBaseDao(AbstractBaseDao):
             self.entity_data = getattr(self.db_cls, entity)
 
 
-    def create(self, obj: dict):
+    def create(self, obj: BaseModel) -> BaseModel:
         self.entity_data.append(obj)
         return self.entity_data[-1]
 
 
-    def read(self, filter: dict | None = None):
+    def read(self, filter: dict | None = None) -> list[BaseModel] | list[None]:
         if not filter:
             return self.entity_data
         
@@ -74,5 +73,6 @@ class InMemoryBaseDao(AbstractBaseDao):
         return original_size - len(self.entity_data)
         
 
-    def _match(self, obj, filter):
+    def _match(self, obj: BaseModel, filter):
+        obj = obj.to_dict()
         return all(obj.get(k) == v for k, v in filter.items())
