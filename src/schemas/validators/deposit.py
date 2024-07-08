@@ -3,4 +3,4 @@ from pydantic import BaseModel
 # ---------------------------------------------------------- #
 
 class Deposit(BaseModel):
-    amount: int | None
+    amount: int | None = None

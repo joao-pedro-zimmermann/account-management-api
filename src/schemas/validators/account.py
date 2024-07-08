@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 # ---------------------------------------------------------- #
 
 class Account(BaseModel):
-    account_number: str | None
+    account_number: str | None = None
 
 
 class Balance(BaseModel):
-    current_balance: int | None
+    current_balance: int | None = None
 

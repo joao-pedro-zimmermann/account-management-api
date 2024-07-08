@@ -61,10 +61,10 @@ def get_valid_account(account_number: str) -> AccountDTO:
     
     account = get_account(account_number)
 
-    if not len(account):
+    if not account:
         raise AccountNotFoundException(account_number)
 
-    return account[0]
+    return account
 
 
 def get_account(account_number: str) -> AccountDTO | None:

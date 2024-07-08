@@ -5,7 +5,7 @@ class AccountNotFoundException(Exception):
 
 class InsufficientBalanceException(Exception):
     def __init__(self):
-        super().__init__(f'Insufficient balance')
+        super().__init__('Insufficient balance')
 
 
 class AccountAlreadyExistsException(Exception):
