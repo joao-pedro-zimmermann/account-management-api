@@ -6,14 +6,21 @@ from daos.account import AccountDAO
 from daos.transfer import TransferDAO
 from daos.deposit import DepositDAO
 
+from exceptions.accounts import (
+    AccountAlreadyExistsException,
+    AccountNotFoundException,
+    InsufficientBalanceException,
+)
+
 # ---------------------------------------------------------- #
 
 
 def create_an_account(account: AccountDTO) -> AccountDTO:
-    account_dao = AccountDAO()
 
-    if account_dao.read({'account_number': account.account_number}):
-        raise Exception('Account already exists')
+    if get_account(account.account_number):
+        raise AccountAlreadyExistsException()
+    
+    account_dao = AccountDAO()
     
     return account_dao.create(account)
 
@@ -24,7 +31,7 @@ def make_a_peer_to_peer_transfer(transfer: TransferDTO):
     destiny_account = get_valid_account(transfer.to)
 
     if transfer.amount > origin_account.current_balance:
-        raise Exception('Insufficient balance')
+        raise InsufficientBalanceException()
 
     save_transfer(transfer)
 
@@ -51,12 +58,22 @@ def decrement_balance(account: AccountDTO, amount: int):
 
 
 def get_valid_account(account_number: str) -> AccountDTO:
+    
+    account = get_account(account_number)
+
+    if not len(account):
+        raise AccountNotFoundException(account_number)
+
+    return account[0]
+
+
+def get_account(account_number: str) -> AccountDTO | None:
     account_dao = AccountDAO()
     
     account = account_dao.read({'account_number': account_number})
 
     if not len(account):
-        raise Exception(f'Account {account_number} not found')
+        return None
 
     return account[0]
 

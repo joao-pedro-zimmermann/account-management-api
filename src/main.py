@@ -1,7 +1,9 @@
+import uvicorn
+import logging
+
 from fastapi import FastAPI, APIRouter
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
-import uvicorn
 
 from config import settings
 

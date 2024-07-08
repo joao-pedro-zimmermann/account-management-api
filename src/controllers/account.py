@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, status, HTTPException
 
 from schemas.validators.account import (
@@ -10,6 +12,12 @@ from schemas.validators.deposit import Deposit as DepositSchema
 from schemas.dto.account import AccountDTO
 from schemas.dto.transfer import TransferDTO
 from schemas.dto.deposit import DepositDTO
+
+from exceptions.accounts import (
+    AccountAlreadyExistsException,
+    InsufficientBalanceException,
+    AccountNotFoundException,
+)
 
 from services import account as account_service
 
@@ -31,10 +39,16 @@ async def create_an_account(
     try:
         account_to_create = AccountDTO(**body.dict())
         return account_service.create_an_account(account_to_create)
-    except Exception as e:
+    except AccountAlreadyExistsException as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=500,
+            detail='An error occurred while creating your account. Please try again later.'
         )
     
 
@@ -49,10 +63,21 @@ async def make_a_peer_to_peer_transfer(
     try:
         transfer_to_make = TransferDTO(**body.dict())
         account_service.make_a_peer_to_peer_transfer(transfer_to_make)
-    except Exception as e:
+    except AccountNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
+    except InsufficientBalanceException as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail='An error occurred while processing your peer-to-peer transfer. Please try again later.'
         )
     
 
@@ -68,10 +93,16 @@ async def deposit_into_an_account(
     try:
         deposit = DepositDTO(**body.dict())
         return account_service.deposit_into_an_account(account_number, deposit)
-    except Exception as e:
+    except AccountNotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='An error occurred while processing your deposit. Please try again later.'
         )
     
 
@@ -85,8 +116,14 @@ async def get_account_balance(
 ):
     try:
         return account_service.get_valid_account(account_number)
-    except Exception as e:
+    except AccountNotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='An error occurred while retrieving your account balance. Please try again later.'
         )
