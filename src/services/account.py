@@ -1,8 +1,10 @@
 from schemas.dto.account import AccountDTO
 from schemas.dto.transfer import TransferDTO
+from schemas.dto.deposit import DepositDTO
 
 from daos.account import AccountDAO
 from daos.transfer import TransferDAO
+from daos.deposit import DepositDAO
 
 # ---------------------------------------------------------- #
 
@@ -18,9 +20,9 @@ def create_an_account(account: AccountDTO) -> AccountDTO:
 
 def make_a_peer_to_peer_transfer(transfer: TransferDTO):
 
-    origin_account = get_account(transfer.from_)
-    destiny_account = get_account(transfer.to)
-    
+    origin_account = get_valid_account(transfer.from_)
+    destiny_account = get_valid_account(transfer.to)
+
     if transfer.amount > origin_account.current_balance:
         raise Exception('Insufficient balance')
 
@@ -48,7 +50,7 @@ def decrement_balance(account: AccountDTO, amount: int):
     )
 
 
-def get_account(account_number: str) -> AccountDTO:
+def get_valid_account(account_number: str) -> AccountDTO:
     account_dao = AccountDAO()
     
     account = account_dao.read({'account_number': account_number})
@@ -62,3 +64,16 @@ def get_account(account_number: str) -> AccountDTO:
 def save_transfer(transfer: TransferDTO) -> TransferDTO:
     transfer_dao = TransferDAO()
     return transfer_dao.create(transfer)
+
+
+def deposit_into_an_account(account_number: str, deposit: DepositDTO) -> None:
+    account = get_valid_account(account_number)
+    
+    save_deposit(deposit)
+
+    increment_balance(account, deposit.amount)
+
+
+def save_deposit(deposit: DepositDTO) -> DepositDTO:
+    deposit_dao = DepositDAO()
+    return deposit_dao.create(deposit)

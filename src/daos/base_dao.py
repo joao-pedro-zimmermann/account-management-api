@@ -49,13 +49,13 @@ class BaseDAO(AbstractBaseDAO):
         if not filter:
             for obj in self.entity_data:
                 for k, v in values.items():
-                    obj[k] = v
+                    setattr(obj, k, v)
                     updated_count += 1
         else:
             for obj in self.entity_data:
                 if self._match(obj, filter):
                     for k, v in values.items():
-                        obj[k] = v
+                        setattr(obj, k, v)
                         updated_count += 1
                         
         return updated_count

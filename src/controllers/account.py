@@ -5,9 +5,11 @@ from schemas.validators.account import (
     Balance as BalanceSchema,
 )
 from schemas.validators.transfer import Transfer as TransferSchema
+from schemas.validators.deposit import Deposit as DepositSchema
 
 from schemas.dto.account import AccountDTO
 from schemas.dto.transfer import TransferDTO
+from schemas.dto.deposit import DepositDTO
 
 from services import account as account_service
 
@@ -54,16 +56,35 @@ async def make_a_peer_to_peer_transfer(
         )
     
 
+@router.post(
+    path='/{account_number}/deposit',
+    status_code=status.HTTP_200_OK,
+    response_model=None
+)
+async def deposit_into_an_account(
+    account_number: str,
+    body: DepositSchema
+):
+    try:
+        deposit = DepositDTO(**body.dict())
+        return account_service.deposit_into_an_account(account_number, deposit)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
+    
+
 @router.get(
     path='/{account_number}/balance',
     status_code=status.HTTP_200_OK,
     response_model=BalanceSchema
 )
 async def get_account_balance(
-    accountNumber: str
+    account_number: str
 ):
     try:
-        return account_service.get_account(accountNumber)
+        return account_service.get_valid_account(account_number)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
