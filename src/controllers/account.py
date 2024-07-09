@@ -13,10 +13,13 @@ from schemas.dto.account import AccountDTO
 from schemas.dto.transfer import TransferDTO
 from schemas.dto.deposit import DepositDTO
 
-from exceptions.accounts import (
+from exceptions.account import (
     AccountAlreadyExistsException,
-    InsufficientBalanceException,
     AccountNotFoundException,
+)
+
+from exceptions.transfer import (
+    InsufficientBalanceException,
 )
 
 from services import account as account_service

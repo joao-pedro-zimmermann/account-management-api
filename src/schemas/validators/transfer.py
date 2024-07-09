@@ -1,8 +1,13 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 # ---------------------------------------------------------- #
 
 class Transfer(BaseModel):
-    amount: int | None = None
-    from_: str | None = Field(alias="from", default=None)
-    to: str | None = None
+    amount: int
+    from_: str = Field(alias="from")
+    to: str
+
+    @field_validator('amount')
+    def validate_amount(cls, v):
+        if v <= 0:
+            raise ValueError('Amount must be greater than zero.')

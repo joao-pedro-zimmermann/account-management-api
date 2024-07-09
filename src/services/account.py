@@ -6,11 +6,15 @@ from daos.account import AccountDAO
 from daos.transfer import TransferDAO
 from daos.deposit import DepositDAO
 
-from exceptions.accounts import (
+from exceptions.account import (
     AccountAlreadyExistsException,
     AccountNotFoundException,
-    InsufficientBalanceException,
 )
+
+from exceptions.transfer import (
+    SameAccountsTransferException,
+    InsufficientBalanceException,
+) 
 
 # ---------------------------------------------------------- #
 
@@ -26,6 +30,9 @@ def create_an_account(account: AccountDTO) -> AccountDTO:
 
 
 def make_a_peer_to_peer_transfer(transfer: TransferDTO):
+
+    if transfer.from_ == transfer.to:
+        raise SameAccountsTransferException()
 
     origin_account = get_valid_account(transfer.from_)
     destiny_account = get_valid_account(transfer.to)
