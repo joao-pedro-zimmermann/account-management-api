@@ -10,5 +10,5 @@ class Transfer(BaseModel):
     @field_validator('amount')
     def validate_amount(cls, v):
         if v <= 0:
-            raise ValueError('Amount must be greater than zero.')
+            raise ValueError('Transfer amount must be greater than zero.')
         return v
