@@ -20,6 +20,7 @@ from exceptions.account import (
 
 from exceptions.transfer import (
     InsufficientBalanceException,
+    SameAccountsTransferException
 )
 
 from services import account as account_service
@@ -71,7 +72,7 @@ async def make_a_peer_to_peer_transfer(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         )
-    except InsufficientBalanceException as e:
+    except (SameAccountsTransferException, InsufficientBalanceException) as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(e)

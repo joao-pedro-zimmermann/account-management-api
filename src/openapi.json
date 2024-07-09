@@ -95,7 +95,7 @@
               }
             },
             "409": {
-              "description": "Insufficient balance",
+              "description": "Conflict data",
               "content": {
                 "application/json": {
                   "schema": {
@@ -103,7 +103,7 @@
                   }
                 }
               }
-            }
+            },
           }
         }
       },
@@ -314,9 +314,9 @@
           "type": "object",
           "title": "Transfer"
         },
-        "HTTPAccountNotFoundError": {
+        "HTTPError": {
           "type": "object",
-          "title": "AccountNotFoundError",
+          "title": "Logical error",
           "properties": {
             "detail": {
               "type": "string",
@@ -332,6 +332,17 @@
             "detail": {
               "type": "string",
               "example": "Account already exists"
+            }
+          },
+          "required": ["detail"]
+        },
+        "HTTPSameAccountsTransferError": {
+          "type": "object",
+          "title": "SameAccountsTransferError",
+          "properties": {
+            "detail": {
+              "type": "string",
+              "example": "Transfer to the same account is not allowed. Please select a different destination account."
             }
           },
           "required": ["detail"]
