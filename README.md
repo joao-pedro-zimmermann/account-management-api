@@ -2,9 +2,11 @@
 
 ## Sobre esse projeto
 
-Esse projeto foi feito tomando como base o seguinte material TODO: COLOCAR LINK PARA OS MATERIAIS.
+Esse projeto foi feito tomando como base a [descrição do projeto](support_material/descricao_teste_tecnico) e a [documentação](support_material/api_documentation).
 
 É importante observar que a documentação técnica da API foi tomada como base, porém não foi seguida a risca, tendo pequenas alterações em `schemas`, `paths`, `responses` e validações.
+
+A persistência de dados foi obtida sem a utilização de um banco de dados, salvando os dados em memória. Logo, ao reiniciar/fechar a aplicação, os dados são perdidos.
 
 ## Como rodar o projeto
 
@@ -26,7 +28,7 @@ python3 src/main.py
 
 ## Documentação
 
-Para acessar a documentação interativa, basta acessar `http://localhost:9000/docs`
+Para acessar a documentação interativa, basta acessar `http://localhost:9000/docs` enquanto a aplicação estiver rodando.
 
 
 
