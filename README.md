@@ -2,7 +2,7 @@
 
 ## Sobre esse projeto
 
-Esse projeto foi feito tomando como base a [descrição do projeto](support_material/descricao_teste_tecnico) e a [documentação](support_material/api_documentation).
+Esse projeto foi feito tomando como base a [descrição do projeto](support_materials/descricao_teste_tecnico) e a [documentação](support_materials/api_documentation).
 
 É importante observar que a documentação técnica da API foi tomada como base, porém não foi seguida a risca, tendo pequenas alterações em `schemas`, `paths`, `responses` e validações.
 
