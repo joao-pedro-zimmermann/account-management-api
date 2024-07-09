@@ -95,7 +95,7 @@
               }
             },
             "409": {
-              "description": "Conflict data",
+              "description": "Insufficient balance",
               "content": {
                 "application/json": {
                   "schema": {
@@ -103,7 +103,7 @@
                   }
                 }
               }
-            },
+            }
           }
         }
       },
@@ -314,9 +314,9 @@
           "type": "object",
           "title": "Transfer"
         },
-        "HTTPError": {
+        "HTTPAccountNotFoundError": {
           "type": "object",
-          "title": "Logical error",
+          "title": "AccountNotFoundError",
           "properties": {
             "detail": {
               "type": "string",
