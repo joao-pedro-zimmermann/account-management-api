@@ -131,3 +131,27 @@ async def get_account_balance(
             status_code=status.HTTP_404_NOT_FOUND,
             detail='An error occurred while retrieving your account balance. Please try again later.'
         )
+    
+
+@router.get(
+    path='/{account_number}/deposits',
+    status_code=status.HTTP_200_OK,
+    response_model=list[None] | list[DepositSchema]
+)
+async def get_account_deposits(
+    account_number: str
+):
+    try:
+        return account_service.get_account_deposits(account_number)
+    except AccountNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='An error occurred while retrieving your account deposits. Please try again later.'
+        )
+    
