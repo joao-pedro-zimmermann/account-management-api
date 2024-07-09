@@ -8,7 +8,10 @@ from fastapi.openapi.utils import get_openapi
 
 from config import settings
 
-from controllers import account
+from controllers import (
+    account,
+    transfer,
+)
 
 # ---------------------------------------------------------- #
 
@@ -17,6 +20,7 @@ main_router = APIRouter(
 )
 
 main_router.include_router(account.router)
+main_router.include_router(transfer.router)
 
 app = FastAPI(openapi_url='/custom_openapi.json')
 
@@ -26,17 +30,17 @@ app.include_router(main_router)
 async def validation_exception_handler(request, exc):
     return JSONResponse(content={"detail": str(exc)}, status_code=400)
 
-def custom_openapi():
-    with open('src/openapi.json', 'r') as file:
-        custom_openapi_schema = json.load(file)
-
-    if app.openapi_schema:
-        return app.openapi_schema
-    
-    app.openapi_schema = custom_openapi_schema
-    return app.openapi_schema
-
-app.openai = custom_openapi()
+#def custom_openapi():
+#    with open('src/openapi.json', 'r') as file:
+#        custom_openapi_schema = json.load(file)
+#
+#    if app.openapi_schema:
+#        return app.openapi_schema
+#    
+#    app.openapi_schema = custom_openapi_schema
+#    return app.openapi_schema
+#
+#app.openai = custom_openapi()
 
 
 if __name__ == "__main__":
