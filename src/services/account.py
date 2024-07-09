@@ -90,8 +90,8 @@ def save_transfer(transfer: TransferDTO) -> TransferDTO:
     return transfer_dao.create(transfer)
 
 
-def deposit_into_an_account(account_number: str, deposit: DepositDTO) -> None:
-    account = get_valid_account(account_number)
+def deposit_into_an_account(deposit: DepositDTO) -> None:
+    account = get_valid_account(deposit.account_number)
     
     save_deposit(deposit)
 

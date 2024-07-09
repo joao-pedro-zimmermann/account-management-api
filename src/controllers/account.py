@@ -95,8 +95,8 @@ async def deposit_into_an_account(
     body: DepositSchema
 ):
     try:
-        deposit = DepositDTO(**body.dict())
-        return account_service.deposit_into_an_account(account_number, deposit)
+        deposit = DepositDTO(**body.dict(), account_number=account_number)
+        return account_service.deposit_into_an_account(deposit)
     except AccountNotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

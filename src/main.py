@@ -11,6 +11,7 @@ from config import settings
 from controllers import (
     account,
     transfer,
+    deposit,
 )
 
 # ---------------------------------------------------------- #
@@ -21,6 +22,7 @@ main_router = APIRouter(
 
 main_router.include_router(account.router)
 main_router.include_router(transfer.router)
+main_router.include_router(deposit.router)
 
 app = FastAPI(openapi_url='/custom_openapi.json')
 

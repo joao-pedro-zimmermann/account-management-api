@@ -8,3 +8,4 @@ from models.base_model import BaseModel
 class DepositModel(BaseModel):
     
     amount: int
+    account_number: str

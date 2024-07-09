@@ -8,3 +8,4 @@ from schemas.dto.base_dto import BaseDTO
 class DepositDTO(BaseDTO):
 
     amount: int | None
+    account_number: str | None
