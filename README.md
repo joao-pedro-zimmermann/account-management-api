@@ -10,6 +10,8 @@ O armazenamento de dados foi feito em memória. Logo, ao reiniciar/fechar a apli
 
 ## Como rodar o projeto
 
+É necessário ter versão Python superior ou igual à 3.10.
+
 Clone o repositório. Dentro da pasta do projeto, crie um ambiente virtual e o ative:
 ```console
 python3 -m venv env
@@ -24,10 +26,16 @@ python -m venv env
 
 Instale as dependências:
 ```console
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
 Dentro da pasta do projeto, rode a aplicação:
+```console
+python3 src/main.py
+```
+
+ou, caso o sistema for Windows:
 ```console
 python3 src/main.py
 ```
