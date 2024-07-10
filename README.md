@@ -16,6 +16,12 @@ python3 -m venv env
 source env/bin/activate
 ```
 
+ou, caso o sistema for Windows:
+```console
+python -m venv env
+.\env\Scripts\activate
+```
+
 Instale as dependências:
 ```console
 pip install -r requirements.txt
@@ -29,3 +35,10 @@ python3 src/main.py
 ## Documentação
 
 Para acessar a documentação interativa, basta acessar `http://localhost:9000/docs` enquanto a aplicação estiver rodando.
+
+## Alterando a Porta da Aplicação
+
+Para mudar a porta da aplicação, crie um arquivo .env na pasta raiz do projeto com a variável PORT definida, por exemplo:
+ ```plaintext
+PORT=8080
+```
