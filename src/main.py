@@ -43,7 +43,7 @@ def custom_openapi():
     return app.openapi_schema
 
 app.openai = custom_openapi()
-
+ 
 
 if __name__ == "__main__":
     uvicorn.run("main:app", port=settings.PORT)
