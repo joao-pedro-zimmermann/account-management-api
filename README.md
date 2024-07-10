@@ -1,8 +1,8 @@
-# Case Assis - Account Management API
+# Account Management API
 
 ## Sobre esse projeto
 
-Esse projeto foi feito tomando como base a [descrição do projeto](support_materials/descricao_teste_tecnico.pdf) e a [documentação](support_materials/api_documentation.pdf).
+Esse projeto foi feito tomando como base a [documentação](support_materials/api_documentation.pdf).
 
 É importante observar que a documentação técnica da API foi tomada como base, porém não foi seguida a risca, tendo pequenas alterações em `schemas`, `paths`, `responses` e validações.
 
