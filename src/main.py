@@ -32,18 +32,18 @@ app.include_router(main_router)
 async def validation_exception_handler(request, exc):
     return JSONResponse(content={"detail": str(exc)}, status_code=400)
 
-#def custom_openapi():
-#    with open('src/openapi.json', 'r') as file:
-#        custom_openapi_schema = json.load(file)
-#
-#    if app.openapi_schema:
-#        return app.openapi_schema
-#    
-#    app.openapi_schema = custom_openapi_schema
-#    return app.openapi_schema
-#
-#app.openai = custom_openapi()
+def custom_openapi():
+    with open('src/openapi.json', 'r') as file:
+        custom_openapi_schema = json.load(file)
+
+    if app.openapi_schema:
+        return app.openapi_schema
+    
+    app.openapi_schema = custom_openapi_schema
+    return app.openapi_schema
+
+app.openai = custom_openapi()
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=settings.PORT, reload=True)
+    uvicorn.run("main:app", port=settings.PORT)

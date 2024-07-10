@@ -1,218 +1,65 @@
 {
-    "openapi": "3.1.0",
-    "info": {
-      "title": "Account Management API",
-      "version": "1.0.0",
-      "description": "API simples construída como case técnico para a vaga de engenheiro backend."
-    },
-    "paths": {
-      "/api/v1/accounts": {
-        "post": {
-          "tags": [
-            "Account"
-          ],
-          "summary": "Create an account",
-          "operationId": "create_an_account_api_v1_accounts_post",
-          "requestBody": {
-            "description": "Account information",
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Case Assis - Accounts Management API",
+    "summary": "API for accounts management and financial operations",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/accounts": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Create An Account",
+        "operationId": "create_an_account_api_v1_accounts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Account"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Account"
                 }
               }
-            },
-            "required": true
-          },
-          "responses": {
-            "201": {
-              "description": "Account created successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Account"
-                  }
-                }
-              }
-            },
-            "409": {
-              "description": "Account already exists",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPAccountAlreadyExistsError"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
             }
-          }
-        }
-      },
-      "/api/v1/accounts/transfer": {
-        "post": {
-          "tags": [
-            "Account"
-          ],
-          "summary": "Make a peer-to-peer transfer",
-          "operationId": "make_a_peer_to_peer_transfer_api_v1_accounts_transfer_post",
-          "requestBody": {
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Transfer"
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
-            },
-            "required": true
+            }
           },
-          "responses": {
-            "200": {
-              "description": "Transfer made successfully",
-              "content": {
-                "application/json": {
-                  "schema": {}
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "409": {
-              "description": "Insufficient balance",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPInsufficientBalanceError"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/v1/accounts/{account_number}/deposit": {
-        "post": {
-          "tags": [
-            "Account"
-          ],
-          "summary": "Deposit into an account",
-          "operationId": "deposit_into_an_account_api_v1_accounts__account_number__deposit_post",
-          "parameters": [
-            {
-              "name": "account_number",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "title": "Account Number"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
+          "409": {
+            "description": "Account Already Exists",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Deposit"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Deposit made successfully",
-              "content": {
-                "application/json": {
-                  "schema": {}
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Account not found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPAccountNotFoundError"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/api/v1/accounts/{account_number}/balance": {
-        "get": {
-          "tags": [
-            "Account"
-          ],
-          "summary": "Get account balance",
-          "operationId": "get_account_balance_api_v1_accounts__account_number__balance_get",
-          "parameters": [
-            {
-              "name": "account_number",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "type": "string",
-                "title": "Account Number"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Balance"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPValidationError"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Account not found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/HTTPAccountNotFoundError"
-                  }
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -220,190 +67,652 @@
         }
       }
     },
-    "components": {
-      "schemas": {
-        "Account": {
-          "properties": {
-            "account_number": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
+    "/api/v1/accounts/transfer": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Make A Peer To Peer Transfer",
+        "operationId": "make_a_peer_to_peer_transfer_api_v1_accounts_transfer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transfer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              ],
-              "title": "Account number",
-              "description": "Unique account number",
-              "example": "1225-6"
+              }
             }
           },
-          "type": "object",
-          "title": "Account"
-        },
-        "Balance": {
-          "properties": {
-            "current_balance": {
-              "anyOf": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "null"
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
-              ],
-              "title": "Current Balance"
+              }
             }
           },
-          "type": "object",
-          "title": "Balance"
-        },
-        "Deposit": {
-          "properties": {
-            "amount": {
-              "anyOf": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "null"
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
-              ],
-              "title": "Amount"
+              }
             }
           },
-          "type": "object",
-          "title": "Deposit"
-        },
-        "Transfer": {
-          "properties": {
-            "amount": {
-              "anyOf": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "null"
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
-              ],
-              "title": "Amount"
-            },
-            "from": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_number}/deposit": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Deposit Into An Account",
+        "operationId": "deposit_into_an_account_api_v1_accounts__account_number__deposit_post",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Deposit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              ],
-              "title": "From"
-            },
-            "to": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
+              }
+            }
+          },
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
-              ],
-              "title": "To"
+              }
             }
           },
-          "type": "object",
-          "title": "Transfer"
-        },
-        "HTTPAccountNotFoundError": {
-          "type": "object",
-          "title": "AccountNotFoundError",
-          "properties": {
-            "detail": {
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_number}/balance": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get Account Balance",
+        "operationId": "get_account_balance_api_v1_accounts__account_number__balance_get",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "path",
+            "required": true,
+            "schema": {
               "type": "string",
-              "example": "Account 123456 not found"
+              "title": "Account Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Balance"
+                }
+              }
             }
           },
-          "required": ["detail"]
-        },
-        "HTTPAccountAlreadyExistsError": {
-          "type": "object",
-          "title": "AccountAlreadyExistsError",
-          "properties": {
-            "detail": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_number}/deposits": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get Account Deposits",
+        "operationId": "get_account_deposits_api_v1_accounts__account_number__deposits_get",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "path",
+            "required": true,
+            "schema": {
               "type": "string",
-              "example": "Account already exists"
+              "title": "Account Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "null"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "items": {
+                        "$ref": "#/components/schemas/DepositWithAccountResponse"
+                      },
+                      "type": "array"
+                    }
+                  ],
+                  "title": "Response Get Account Deposits Api V1 Accounts Deposits Get"
+                }
+              }
             }
           },
-          "required": ["detail"]
-        },
-        "HTTPSameAccountsTransferError": {
-          "type": "object",
-          "title": "SameAccountsTransferError",
-          "properties": {
-            "detail": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_number}/transfers/outgoing": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get Account Outgoing Transfers",
+        "operationId": "get_account_outgoing_transfers_api_v1_accounts__account_number__transfers_outgoing_get",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "path",
+            "required": true,
+            "schema": {
               "type": "string",
-              "example": "Transfer to the same account is not allowed. Please select a different destination account."
+              "title": "Account Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "null"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "items": {
+                        "$ref": "#/components/schemas/Transfer"
+                      },
+                      "type": "array"
+                    }
+                  ],
+                  "title": "Response Get Account Outgoing Transfers Api V1 Accounts Transfers Outgoing Get"
+                }
+              }
             }
           },
-          "required": ["detail"]
-        },
-        "HTTPInsufficientBalanceError": {
-          "type": "object",
-          "title": "InsufficientBalanceError",
-          "properties": {
-            "detail": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_number}/transfers/incoming": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get Account Incoming Transfers",
+        "operationId": "get_account_incoming_transfers_api_v1_accounts__account_number__transfers_incoming_get",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "path",
+            "required": true,
+            "schema": {
               "type": "string",
-              "example": "Insufficient balance"
+              "title": "Account Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "null"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "items": {
+                        "$ref": "#/components/schemas/Transfer"
+                      },
+                      "type": "array"
+                    }
+                  ],
+                  "title": "Response Get Account Incoming Transfers Api V1 Accounts Transfers Incoming Get"
+                }
+              }
             }
           },
-          "required": ["detail"]
-        },
-        "HTTPValidationError": {
-          "properties": {
-            "detail": {
-              "items": {
-                "$ref": "#/components/schemas/ValidationError"
-              },
-              "type": "array",
-              "title": "Detail"
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
             }
           },
-          "type": "object",
-          "title": "HTTPValidationError"
-        },  
-        "ValidationError": {
-          "properties": {
-            "loc": {
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "integer"
-                  }
-                ]
-              },
-              "type": "array",
-              "title": "Location"
-            },
-            "msg": {
-              "type": "string",
-              "title": "Message"
-            },
-            "type": {
-              "type": "string",
-              "title": "Error Type"
+          "404": {
+            "description": "Account Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             }
           },
-          "type": "object",
-          "required": [
-            "loc",
-            "msg",
-            "type"
-          ],
-          "title": "ValidationError"
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transfers": {
+      "get": {
+        "tags": [
+          "Transfer"
+        ],
+        "summary": "Get All Transfers",
+        "operationId": "get_all_transfers_api_v1_transfers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "null"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "items": {
+                        "$ref": "#/components/schemas/Transfer"
+                      },
+                      "type": "array"
+                    }
+                  ],
+                  "title": "Response Get All Transfers Api V1 Transfers Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/deposits": {
+      "get": {
+        "tags": [
+          "Deposit"
+        ],
+        "summary": "Get All Deposits",
+        "operationId": "get_all_deposits_api_v1_deposits_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "null"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "items": {
+                        "$ref": "#/components/schemas/DepositWithAccountResponse"
+                      },
+                      "type": "array"
+                    }
+                  ],
+                  "title": "Response Get All Deposits Api V1 Deposits Get"
+                }
+              }
+            }
+          }
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "properties": {
+          "account_number": {
+            "type": "string",
+            "title": "Account Number"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_number"
+        ],
+        "title": "Account"
+      },
+      "Balance": {
+        "properties": {
+          "current_balance": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Balance"
+          }
+        },
+        "type": "object",
+        "title": "Balance"
+      },
+      "Deposit": {
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount"
+        ],
+        "title": "Deposit"
+      },
+      "DepositWithAccountResponse": {
+        "properties": {
+          "account_number": {
+            "type": "string",
+            "title": "Account Number"
+          },
+          "amount": {
+            "type": "integer",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_number",
+          "amount"
+        ],
+        "title": "DepositWithAccountResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Transfer": {
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "title": "Amount"
+          },
+          "from": {
+            "type": "string",
+            "title": "From"
+          },
+          "to": {
+            "type": "string",
+            "title": "To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount",
+          "from",
+          "to"
+        ],
+        "title": "Transfer"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse"
+      }
+    }
   }
+}
+  

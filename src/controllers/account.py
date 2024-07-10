@@ -159,14 +159,14 @@ async def get_account_deposits(
 @router.get(
     path='/{account_number}/transfers/outgoing',
     status_code=status.HTTP_200_OK,
-    response_model=list[None] | list[TransferSch]
+    response_model=list[None] | list[TransferSchema]
 )
 async def get_account_outgoing_transfers(
     account_number: str
 ):
     try:
         transfers = account_service.get_account_outgoing_transfers(account_number)
-        return [TransferResponse(**transfer.to_dict(by_alias=True)) for transfer in transfers]
+        return [TransferSchema(**transfer.to_dict(by_alias=True)) for transfer in transfers]
     except AccountNotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -183,14 +183,14 @@ async def get_account_outgoing_transfers(
 @router.get(
     path='/{account_number}/transfers/incoming',
     status_code=status.HTTP_200_OK,
-    response_model=list[None] | list[TransferResponse]
+    response_model=list[None] | list[TransferSchema]
 )
 async def get_account_incoming_transfers(
     account_number: str
 ):
     try:
         transfers = account_service.get_account_incoming_transfers(account_number)
-        return [TransferResponse(**transfer.to_dict(by_alias=True)) for transfer in transfers]
+        return [TransferSchema(**transfer.to_dict(by_alias=True)) for transfer in transfers]
     except AccountNotFoundException as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
