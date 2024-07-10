@@ -101,3 +101,26 @@ def deposit_into_an_account(deposit: DepositDTO) -> None:
 def save_deposit(deposit: DepositDTO) -> DepositDTO:
     deposit_dao = DepositDAO()
     return deposit_dao.create(deposit)
+
+
+def get_account_deposits(account_number: str) -> list[None] | list[DepositDTO]:
+    get_valid_account(account_number)
+
+    deposit_dao = DepositDAO()
+    deposits = deposit_dao.read({'account_number': account_number})
+    return deposits
+
+
+def get_account_outgoing_transfers(account_number: str) -> list[None] | list[TransferDTO]:
+    get_valid_account(account_number)
+
+    transfer_dao = TransferDAO()
+    transfers = transfer_dao.read({'from_': account_number})
+    return transfers
+
+def get_account_incoming_transfers(account_number: str) -> list[None] | list[TransferDTO]:
+    get_valid_account(account_number)
+
+    transfer_dao = TransferDAO()
+    transfers = transfer_dao.read({'to': account_number})
+    return transfers

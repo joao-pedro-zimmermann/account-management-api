@@ -155,3 +155,50 @@ async def get_account_deposits(
             detail='An error occurred while retrieving your account deposits. Please try again later.'
         )
     
+
+@router.get(
+    path='/{account_number}/transfers/outgoing',
+    status_code=status.HTTP_200_OK,
+    response_model=list[None] | list[TransferSch]
+)
+async def get_account_outgoing_transfers(
+    account_number: str
+):
+    try:
+        transfers = account_service.get_account_outgoing_transfers(account_number)
+        return [TransferResponse(**transfer.to_dict(by_alias=True)) for transfer in transfers]
+    except AccountNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='An error occurred while retrieving your outgoing transfers. Please try again later.'
+        )
+    
+
+@router.get(
+    path='/{account_number}/transfers/incoming',
+    status_code=status.HTTP_200_OK,
+    response_model=list[None] | list[TransferResponse]
+)
+async def get_account_incoming_transfers(
+    account_number: str
+):
+    try:
+        transfers = account_service.get_account_incoming_transfers(account_number)
+        return [TransferResponse(**transfer.to_dict(by_alias=True)) for transfer in transfers]
+    except AccountNotFoundException as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e)
+        )
+    except Exception as e:
+        logging.error(str(e))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='An error occurred while retrieving your account incoming transfer. Please try again later.'
+        )
