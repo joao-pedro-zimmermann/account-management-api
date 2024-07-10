@@ -37,7 +37,7 @@ python3 src/main.py
 
 ou, caso o sistema for Windows:
 ```console
-python3 src/main.py
+python src/main.py
 ```
 
 ## Documentação
